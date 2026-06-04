@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php'; /* Pastikan semua file blade kamu terpantau */
+
+@theme {
+    /* Mendaftarkan font Sans untuk body */
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    
+    /* Mendaftarkan font Serif untuk Heading */
+    --font-serif: 'Playfair Display', serif;
+
+    /* Opsional: Kamu bisa nambahin warna custom bertema Sanctuary di sini */
+    --color-coffee-dark: #2C1A11;
+    --color-coffee-warm: #4A3525;
+    --color-paper: #FBF9F4;
+}
