@@ -107,7 +107,21 @@
         }
         .nav-link:hover::after,
         .nav-link.is-active::after { width: 100%; }
-        .nav-link.is-active { color: #4A3525; }
+
+        /* Navbar color states: light over hero (top), dark when scrolled */
+        #kairosNavbar .nav-brand { color: #ffffff; }
+        #kairosNavbar .nav-tag   { color: rgba(255,255,255,0.65); }
+        #kairosNavbar .nav-link  { color: rgba(255,255,255,0.88); }
+        #kairosNavbar .nav-login { color: #ffffff; border-color: rgba(255,255,255,0.45); }
+        #kairosNavbar .nav-greet { color: rgba(255,255,255,0.9); }
+
+        #kairosNavbar.scrolled .nav-brand { color: #4A3525; }
+        #kairosNavbar.scrolled .nav-tag   { color: #7D6E65; }
+        #kairosNavbar.scrolled .nav-link  { color: #2C1A11; }
+        #kairosNavbar.scrolled .nav-login { color: #2C1A11; border-color: rgba(74,53,37,0.2); }
+        #kairosNavbar.scrolled .nav-greet { color: #2C1A11; }
+
+        .nav-link.is-active { color: #D4B996 !important; }
 
         /* Section eyebrow line */
         .eyebrow { display:inline-flex; align-items:center; gap:.75rem; }
@@ -155,32 +169,32 @@
             <a href="#" class="inline-flex items-center gap-3 leading-none">
                 <div class="h-11 w-11 rounded-full bg-coffee flex items-center justify-center text-white text-lg font-semibold shadow-lg ring-2 ring-gold/40">K</div>
                 <div>
-                    <h1 class="font-serif text-xl font-bold text-coffee">Kairos</h1>
-                    <p class="text-[10px] uppercase tracking-[0.3em] text-mocha">Coffee • Books • Silence</p>
+                    <h1 class="nav-brand font-serif text-xl font-bold transition-colors duration-500">Kairos</h1>
+                    <p class="nav-tag text-[10px] uppercase tracking-[0.3em] transition-colors duration-500">Coffee • Books • Silence</p>
                 </div>
             </a>
 
             <div class="hidden items-center gap-7 text-sm font-medium lg:flex text-espresso/90">
-                <a href="#about" class="nav-link transition hover:text-coffee">About</a>
-                <a href="#menu" class="nav-link transition hover:text-coffee">Collection</a>
-                <a href="#spaces" class="nav-link transition hover:text-coffee">Spaces</a>
-                <a href="#gallery" class="nav-link transition hover:text-coffee">Gallery</a>
+                <a href="#about" class="nav-link transition">About</a>
+                <a href="#menu" class="nav-link transition">Collection</a>
+                <a href="#spaces" class="nav-link transition">Spaces</a>
+                <a href="#gallery" class="nav-link transition">Gallery</a>
                 <a href="#reservasi" class="inline-flex items-center gap-2 rounded-full bg-coffee px-5 py-2.5 text-white transition hover:bg-espresso hover:shadow-lg">
                     Reserve
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </a>
                 @guest
                     <div class="flex items-center gap-3">
-                        <a href="{{ route('login.show') }}" class="rounded-full border border-coffee/20 px-4 py-2 transition hover:bg-white">Login</a>
+                        <a href="{{ route('login.show') }}" class="nav-login rounded-full border px-4 py-2 transition hover:bg-white hover:text-espresso">Login</a>
                         <a href="{{ route('register.show') }}" class="rounded-full bg-gold px-4 py-2 text-espresso font-semibold transition hover:bg-goldsoft">Register</a>
                     </div>
                 @endguest
                 @auth
                     <div class="flex items-center gap-3">
-                        <span class="text-sm">Halo, <span class="font-semibold text-coffee">{{ auth()->user()->name }}</span></span>
+                        <span class="nav-greet text-sm">Halo, <span class="font-semibold">{{ auth()->user()->name }}</span></span>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="rounded-full border border-coffee/20 px-4 py-2 transition hover:bg-white">Logout</button>
+                            <button type="submit" class="nav-login rounded-full border px-4 py-2 transition hover:bg-white hover:text-espresso">Logout</button>
                         </form>
                     </div>
                 @endauth
@@ -712,7 +726,10 @@
                 navShell.classList.toggle('py-3', !scrolled);
                 navShell.classList.toggle('shadow-glow', scrolled);
             }
-            if (navbar) navbar.classList.toggle('top-2', scrolled);
+            if (navbar) {
+                navbar.classList.toggle('top-2', scrolled);
+                navbar.classList.toggle('scrolled', scrolled);
+            }
         };
         window.addEventListener('scroll', updateNavbar, { passive: true });
         updateNavbar();
