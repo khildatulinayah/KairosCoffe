@@ -1,9 +1,35 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Menu;
+use App\Models\MenuCategory;
+use App\Models\Book;
+use App\Models\BookCategory;
 
 Route::get('/', function () {
-    return view('landing');
+    $menuCategories = MenuCategory::orderBy('name')->get();
+
+    $featuredMenus = Menu::where('is_featured', true)
+        ->orderByDesc('created_at')
+        ->limit(6)
+        ->get();
+
+    // fallback kalau belum ada menu featured
+    if ($featuredMenus->isEmpty()) {
+        $featuredMenus = Menu::orderByDesc('created_at')->limit(6)->get();
+    }
+
+    $bookCategories = BookCategory::orderBy('name')->get();
+    $topBooks = Book::orderByDesc('stock')
+        ->limit(4)
+        ->get();
+
+    return view('landing', [
+        'menuCategories' => $menuCategories,
+        'menus' => $featuredMenus,
+        'bookCategories' => $bookCategories,
+        'topBooks' => $topBooks,
+    ]);
 });
 
 Route::get('/welcome', function () {
@@ -11,8 +37,10 @@ Route::get('/welcome', function () {
 });
 
 Route::get('/landing', function () {
-    return view('landing');
+    return redirect('/');
 });
+
+
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +51,12 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.show');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Public books by category
+use App\Http\Controllers\BooksPublicController;
+
+Route::get('/book-categories/{bookCategory}', [BooksPublicController::class, 'indexByCategory'])
+    ->name('book-categories.show');
 
 // Admin routes (CRUD)
 Route::middleware('auth')->group(function () {
@@ -38,4 +72,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/menus', \App\Http\Controllers\Admin\MenusController::class)->names('admin.menus');
     Route::resource('admin/book-categories', \App\Http\Controllers\Admin\BookCategoriesController::class)->names('admin.book_categories');
 });
+
 

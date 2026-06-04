@@ -58,9 +58,9 @@
 
                 <div class="aspect-[3/4] rounded-3xl overflow-hidden bg-[#F5EFE6]">
 
-                    @if($book->cover)
-                        <img
-                            src="{{ $book->cover }}"
+@if($book->cover)
+                    <img
+                            src="{{ \Illuminate\Support\Facades\Storage::url($book->cover) }}"
                             alt="{{ $book->title }}"
                             class="w-full h-full object-cover">
                     @else
@@ -90,8 +90,9 @@
                     Book Details
                 </h2>
 
-                <form method="POST"
+<form method="POST"
                       action="{{ route('admin.books.update', $book) }}"
+                      enctype="multipart/form-data"
                       class="space-y-6">
 
                     @csrf
@@ -148,15 +149,25 @@
 
                     <div>
                         <label class="block mb-2 font-medium">
-                            Cover URL
+                            Cover Image
                         </label>
 
                         <input
-                            type="text"
+                            type="file"
                             name="cover"
-                            value="{{ old('cover', $book->cover) }}"
+                            accept="image/*"
                             class="w-full rounded-2xl border border-[#E6DDD1] px-5 py-4">
+
+                        @error('cover')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+
+                        <p class="mt-2 text-sm text-[#7D6E65]">
+                            Current file: 
+                            <span class="font-semibold">{{ $book->cover ? basename($book->cover) : '-' }}</span>
+                        </p>
                     </div>
+
 
                     <div>
                         <label class="block mb-2 font-medium">

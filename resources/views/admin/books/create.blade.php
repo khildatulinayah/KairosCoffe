@@ -80,6 +80,10 @@
                             Book Cover Preview
                         </p>
 
+                        <img id="cover-preview"
+                             class="hidden mx-auto mt-4 w-full h-full object-cover"
+                             style="max-height: 320px; width: auto; border-radius: 16px;" />
+
                     </div>
 
                 </div>
@@ -105,9 +109,10 @@
                     Book Information
                 </h2>
 
-                <form method="POST"
+<form method="POST"
                       action="{{ route('admin.books.store') }}"
-                      class="space-y-6">
+                      enctype="multipart/form-data"
+                      class="space-y-6" id="book-form">
 
                     @csrf
 
@@ -162,16 +167,20 @@
 
                     <div>
                         <label class="block mb-2 font-medium">
-                            Cover URL
+                            Cover Image
                         </label>
 
                         <input
-                            type="text"
+                            type="file"
                             name="cover"
-                            value="{{ old('cover') }}"
-                            placeholder="https://..."
+                            accept="image/*"
                             class="w-full rounded-2xl border border-[#E6DDD1] px-5 py-4">
+
+                        @error('cover')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
+
 
                     <div>
                         <label class="block mb-2 font-medium">
@@ -217,6 +226,30 @@
                     </div>
 
                 </form>
+
+                <script>
+                    (function () {
+                        const fileInput = document.querySelector('input[name="cover"]');
+                        const previewImg = document.getElementById('cover-preview');
+                        if (!fileInput || !previewImg) return;
+
+                        fileInput.addEventListener('change', function () {
+                            const file = this.files && this.files[0];
+                            if (!file) {
+                                previewImg.classList.add('hidden');
+                                previewImg.removeAttribute('src');
+                                return;
+                            }
+
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                previewImg.src = e.target.result;
+                                previewImg.classList.remove('hidden');
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    })();
+                </script>
 
             </div>
 

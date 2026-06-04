@@ -25,5 +25,13 @@ class DatabaseSeeder extends Seeder
 
         // create single admin from seeder (uses ADMIN_EMAIL/ADMIN_PASSWORD env vars)
         $this->call(AdminUserSeeder::class);
+
+        // seed categories for books & menus
+        $this->call(BookCategorySeeder::class);
+
+        // seed books (requires book_categories already seeded)
+        $this->call(BookSeeder::class);
     }
 }
+
+

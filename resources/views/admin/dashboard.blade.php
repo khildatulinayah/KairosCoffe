@@ -154,7 +154,7 @@
                 class="group bg-white rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition">
 
                 <img
-                    src="https://images.unsplash.com/photo-1453928582365-b6adbf5a2c89?q=80&w=1200"
+                    src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200"
                     class="h-64 w-full object-cover group-hover:scale-105 transition duration-700">
 
                 <div class="p-8">

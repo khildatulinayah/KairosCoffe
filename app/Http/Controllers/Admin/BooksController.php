@@ -42,11 +42,24 @@ class BooksController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'author' => ['nullable', 'string', 'max:150'],
             'description' => ['nullable', 'string'],
-            'cover' => ['nullable', 'string', 'max:255'],
             'stock' => ['required', 'integer', 'min:0'],
+            'cover' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+
+
         ]);
 
+
+
+        // Simpan file cover (bukan URL)
+        if ($request->hasFile('cover')) {
+            $data['cover'] = $request->file('cover')->store('book_covers', 'public');
+        } elseif (empty($data['cover'])) {
+            unset($data['cover']);
+        }
+
         Book::create($data);
+
+
         return redirect()->route('admin.books.index')->with('success', 'Book created');
     }
 
@@ -67,9 +80,16 @@ class BooksController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'author' => ['nullable', 'string', 'max:150'],
             'description' => ['nullable', 'string'],
-            'cover' => ['nullable', 'string', 'max:255'],
             'stock' => ['required', 'integer', 'min:0'],
+            'cover' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+
         ]);
+
+        if ($request->hasFile('cover')) {
+            $data['cover'] = $request->file('cover')->store('book_covers', 'public');
+        } else {
+            unset($data['cover']);
+        }
 
         $book->update($data);
         return redirect()->route('admin.books.index')->with('success', 'Book updated');
