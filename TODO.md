@@ -1,15 +1,10 @@
-# TODO - Kairos Landing Redesign
+# TODO
+- [x] Fix validation for menu image upload (error: image field must be a string / max 255 KB)
+- [x] Update MenusController store() validation rules for `image` to use `file|image|mimes|max` instead of `string|max:255`
+- [x] Ensure file is stored (e.g., to `storage/app/public/menu_images`) and persisted in `menus.image` (create)
+- [x] Update MenusController update() to use `file|image|mimes|max` and store uploaded file
+- [ ] Ensure edit form uses same field name (`image`) and multipart enctype (already present)
+- [ ] Add/adjust model fillable/casts if needed
+- [ ] Run quick sanity check: php artisan route list (and/or basic validation via unit/manual form submission)
 
-- [x] Update `resources/views/landing.blade.php`: Navbar floating glassmorphism (not fixed), scroll shrink state, responsive mobile menu.
-- [ ] Update Hero: cinematic layers, refined typography, premium CTAs, premium statistics glass cards.
-
-- [ ] Animation/Motion: keep AOS, add consistent reveal wrappers, improve parallax (raf + clamp), refine counters to trigger on visibility.
-- [ ] About: improve spacing + decorative elements + highlight cards hierarchy.
-- [ ] Coffee Collection: premium menu cards (badge, overlay, zoom, lift, micro-interactions).
-- [ ] Book Categories: premium category cards with icon, hover shimmer.
-- [ ] Gallery: convert to premium masonry-like layout (CSS columns) with overlay hover.
-- [ ] Top Books Collection: more luxurious card design + CTA button hover.
-- [ ] Reservation: luxury booking card + improved form focus states.
-- [ ] Footer: luxury footer layout + social placeholders.
-- [ ] Quick verify Blade directives preserved (@guest/@auth/@forelse etc.) and backend variables untouched.
 

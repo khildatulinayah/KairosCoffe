@@ -102,9 +102,10 @@
                 Menu Information
             </h2>
 
-            <form method="POST"
+<form method="POST"
                   action="{{ route('admin.menus.store') }}"
-                  class="space-y-6">
+                  class="space-y-6"
+                  enctype="multipart/form-data">
 
                 @csrf
 
@@ -162,16 +163,20 @@
 
                 <div>
                     <label class="block mb-2 font-medium">
-                        Image URL
+                        Menu Photo
                     </label>
 
                     <input
-                        type="text"
+                        type="file"
                         name="image"
-                        value="{{ old('image') }}"
-                        placeholder="https://..."
+                        accept="image/*"
                         class="w-full rounded-2xl border border-[#E6DDD1] px-5 py-4">
+
+                    @error('image')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
+
 
                 <div>
                     <label class="block mb-2 font-medium">

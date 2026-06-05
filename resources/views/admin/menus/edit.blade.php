@@ -1,4 +1,3 @@
-```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -73,11 +72,11 @@
                 @if($menu->image)
 
                     <img
-                        src="{{ $menu->image }}"
+                        src="{{ asset('storage/' . $menu->image) }}"
                         alt="{{ $menu->name }}"
                         class="w-full h-full object-cover">
 
-                @else
+                    @else
 
                     <div class="w-full h-full flex items-center justify-center">
                         <div class="text-center">
@@ -129,7 +128,8 @@
 
             <form method="POST"
                   action="{{ route('admin.menus.update', $menu) }}"
-                  class="space-y-6">
+                  class="space-y-6"
+                  enctype="multipart/form-data">
 
                 @csrf
                 @method('PUT')
@@ -199,16 +199,21 @@
                 <div>
 
                     <label class="block mb-2 font-medium">
-                        Image URL
+                        Menu Photo
                     </label>
 
                     <input
-                        type="text"
+                        type="file"
                         name="image"
-                        value="{{ old('image', $menu->image) }}"
+                        accept="image/*"
                         class="w-full rounded-2xl border border-[#E6DDD1] px-5 py-4">
 
+                    @error('image')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+
                 </div>
+
 
                 <div>
 

@@ -17,24 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         // create a test user if not exists
         if (! User::where('email', 'test@example.com')->exists()) {
-            User::factory()->create([
+            User::factory()->create([+
                 'name' => 'Test User',
                 'email' => 'test@example.com',
             ]);
         }
 
-        // create single admin from seeder (uses ADMIN_EMAIL/ADMIN_PASSWORD env vars)
-        $this->call(AdminUserSeeder::class);
-
-        // seed categories for books & menus
-        $this->call(BookCategorySeeder::class);
-        $this->call(MenuCategorySeeder::class);
-
-        // seed menus (requires menu_categories already seeded)
-        $this->call(MenuSeeder::class);
-
-        // seed books (requires book_categories already seeded)
-        $this->call(BookSeeder::class);
+      
     }
 }
 

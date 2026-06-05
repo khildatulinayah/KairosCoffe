@@ -42,17 +42,11 @@ class MenusController extends Controller
             'name' => ['required', 'string', 'max:150'],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
-            'image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image' => ['nullable', 'string', 'max:255'],
             'is_featured' => ['nullable', 'boolean'],
         ]);
 
         $data['is_featured'] = (bool) ($request->input('is_featured') ?? false);
-
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('menu_images', 'public');
-        } else {
-            unset($data['image']);
-        }
 
         Menu::create($data);
         return redirect()->route('admin.menus.index')->with('success', 'Menu created');
@@ -75,17 +69,11 @@ class MenusController extends Controller
             'name' => ['required', 'string', 'max:150'],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
-            'image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image' => ['nullable', 'string', 'max:255'],
             'is_featured' => ['nullable', 'boolean'],
         ]);
 
         $data['is_featured'] = (bool) ($request->input('is_featured') ?? false);
-
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('menu_images', 'public');
-        } else {
-            unset($data['image']);
-        }
 
         $menu->update($data);
         return redirect()->route('admin.menus.index')->with('success', 'Menu updated');
