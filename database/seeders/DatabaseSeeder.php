@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
 
         // seed categories for books & menus
         $this->call(BookCategorySeeder::class);
+        $this->call(MenuCategorySeeder::class);
+
+        // seed menus (requires menu_categories already seeded)
+        $this->call(MenuSeeder::class);
 
         // seed books (requires book_categories already seeded)
         $this->call(BookSeeder::class);

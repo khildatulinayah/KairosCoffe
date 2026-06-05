@@ -1,30 +1,15 @@
-# TODO - Landing Dinamis (Menu & Books)
+# TODO - Kairos Landing Redesign
 
-## Step 1
-- Review struktur menu & books di database dan model (Menu/MenuCategory, Book/BookCategory).
+- [x] Update `resources/views/landing.blade.php`: Navbar floating glassmorphism (not fixed), scroll shrink state, responsive mobile menu.
+- [ ] Update Hero: cinematic layers, refined typography, premium CTAs, premium statistics glass cards.
 
-## Step 2
-- Update `routes/web.php` supaya `/` dan `/landing` mengirim data:
-  - kategori menu (opsional)
-  - menu featured (`is_featured = true`, fallback ambil beberapa jika kosong)
-  - kategori buku
-  - beberapa book untuk grid "Top Books Collection".
-
-## Step 3
-- Update `resources/views/landing.blade.php`:
-  - Ganti card menu statis menjadi loop dari `menus` ✅
-  - Ganti chips kategori buku statis menjadi loop dari `bookCategories` ✅
-  - Ganti section "Top Books Collection" menjadi loop dari `topBooks` ✅
-  - Pastikan fallback jika data kosong.
-
-## Step 4
-- Update interaksi:
-  - Klik kategori di landing mengarah ke halaman buku per kategori.
-
-## Step 5
-- Testing cepat:
-  - Jalankan `php artisan serve` / cek browser `/`.
-  - Klik kategori buku → harus masuk ke halaman `/book-categories/{id}`.
-
-
+- [ ] Animation/Motion: keep AOS, add consistent reveal wrappers, improve parallax (raf + clamp), refine counters to trigger on visibility.
+- [ ] About: improve spacing + decorative elements + highlight cards hierarchy.
+- [ ] Coffee Collection: premium menu cards (badge, overlay, zoom, lift, micro-interactions).
+- [ ] Book Categories: premium category cards with icon, hover shimmer.
+- [ ] Gallery: convert to premium masonry-like layout (CSS columns) with overlay hover.
+- [ ] Top Books Collection: more luxurious card design + CTA button hover.
+- [ ] Reservation: luxury booking card + improved form focus states.
+- [ ] Footer: luxury footer layout + social placeholders.
+- [ ] Quick verify Blade directives preserved (@guest/@auth/@forelse etc.) and backend variables untouched.
 

@@ -158,19 +158,17 @@
         const modal = document.getElementById('bookDetailModal');
         if (!modal) return;
 
-
         const closeBtn = document.getElementById('bookModalCloseBtn');
         const bg = document.getElementById('bookModalBackdrop');
 
         const titleEl = document.getElementById('bookModalTitle');
-        const authorEl = document.getElementById('bookModalAuthor');
+        const authorEl = document.getElementById('bookModalAuthorTop');
         const categoryEl = document.getElementById('bookModalCategory');
         const stockCountEl = document.getElementById('bookModalStockCount');
         const descEl = document.getElementById('bookModalDescription');
         const imgWrap = document.getElementById('bookModalImageWrap');
         const imgEl = document.getElementById('bookModalImage');
         const actionLink = document.getElementById('bookModalActionLink');
-
 
         function openModal(data) {
             if (titleEl) titleEl.textContent = data.title || '';
@@ -189,18 +187,26 @@
                 }
             }
 
-            if (actionLink) actionLink.href = data.actionUrl || '#';
+            // Kalau user belum login, arahkan ke login page.
+            // (Jangan set href ke actionUrl saat belum login)
+            if (actionLink) {
+                const isLoggedIn = String(data.isLoggedIn) === '1' || data.isLoggedIn === true;
+                const actionUrl = data.actionUrl || '#';
+                const loginUrl = data.loginUrl || '#';
+
+                actionLink.href = isLoggedIn ? actionUrl : loginUrl;
+            }
+
 
             modal.classList.remove('hidden');
         }
-
 
         function closeModal() {
             modal.classList.add('hidden');
         }
 
         document.querySelectorAll('[data-book-detail]').forEach((btn) => {
-                    btn.addEventListener('click', () => {
+            btn.addEventListener('click', () => {
                 openModal({
                     title: btn.getAttribute('data-book-title'),
                     author: btn.getAttribute('data-book-author'),
@@ -208,12 +214,12 @@
                     stockCount: btn.getAttribute('data-book-stock'),
                     description: btn.getAttribute('data-book-description'),
                     image: btn.getAttribute('data-book-image'),
-                    actionUrl: btn.getAttribute('data-book-action-url')
+                    actionUrl: btn.getAttribute('data-book-action-url'),
+                    loginUrl: btn.getAttribute('data-book-login-url'),
+                    isLoggedIn: btn.getAttribute('data-book-is-logged-in')
                 });
             });
         });
-
-
 
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
         if (bg) bg.addEventListener('click', closeModal);

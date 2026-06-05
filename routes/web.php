@@ -7,34 +7,40 @@ use App\Models\Book;
 use App\Models\BookCategory;
 
 Route::get('/', function () {
-    $menuCategories = MenuCategory::orderBy('name')->get();
-
-    $featuredMenus = Menu::where('is_featured', true)
-        ->orderByDesc('created_at')
-        ->limit(6)
+    // Landing page utama menggunakan resources/views/welcome.blade.php
+    // Ambil data yang dibutuhkan oleh view (menu, kategori buku, top books)
+    $menus = \App\Models\Menu::with('category')
+        ->orderByDesc('id')
+        ->take(6)
         ->get();
 
-    // fallback kalau belum ada menu featured
-    if ($featuredMenus->isEmpty()) {
-        $featuredMenus = Menu::orderByDesc('created_at')->limit(6)->get();
-    }
+    $bookCategories = \App\Models\BookCategory::orderByDesc('id')->take(6)->get();
 
-    $bookCategories = BookCategory::orderBy('name')->get();
-    $topBooks = Book::orderByDesc('stock')
-        ->limit(4)
+    // "Top books" di halaman ini memakai field: title, author, cover, category, stock, description
+    $topBooks = \App\Models\Book::with('category')
+        ->orderByDesc('stock')
+        ->take(8)
         ->get();
 
-    return view('landing', [
-        'menuCategories' => $menuCategories,
-        'menus' => $featuredMenus,
-        'bookCategories' => $bookCategories,
-        'topBooks' => $topBooks,
-    ]);
+    return view('welcome', compact('menus', 'bookCategories', 'topBooks'));
 });
 
 Route::get('/welcome', function () {
-    return view('welcome');
+    $menus = \App\Models\Menu::with('category')
+        ->orderByDesc('id')
+        ->take(6)
+        ->get();
+
+    $bookCategories = \App\Models\BookCategory::orderByDesc('id')->take(6)->get();
+
+    $topBooks = \App\Models\Book::with('category')
+        ->orderByDesc('stock')
+        ->take(8)
+        ->get();
+
+    return view('welcome', compact('menus', 'bookCategories', 'topBooks'));
 });
+
 
 Route::get('/landing', function () {
     return redirect('/');
